@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>io.corona</groupId>
+	    <artifactId>cache</artifactId>
+	    <version>1.1.0</version>
+    </parent>
+	
+	<artifactId>cache_server</artifactId>
+	<packaging>jar</packaging>
+
+	<name>cache_server</name>
+
+	<properties>
+		<spring.version>4.1.1.RELEASE</spring.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>io.corona</groupId>
+			<artifactId>cache_api</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>2.5.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.I0Itec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+
+		<finalName>cache_server_1.1.0</finalName>
+		
+		
+		<pluginManagement>
+			
+			<plugins>
+				
+				<plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-compiler-plugin</artifactId>
+	                <version>3.2</version>
+	                <configuration>
+	                    <source>1.7</source>
+	                    <target>1.7</target>
+	                    <encoding>UTF-8</encoding>
+	                </configuration>
+            	</plugin>
+            	
+            	<plugin>
+				    <groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-jar-plugin</artifactId>
+				    <version>2.6</version>
+				    <executions>
+				        <execution>
+				            <phase>package</phase>
+				            <goals>
+				                <goal>jar</goal>
+				            </goals>
+				        </execution>
+				    </executions>
+				    <configuration>
+				    	<archive>
+						   <addMavenDescriptor>false</addMavenDescriptor>
+						</archive>
+				        <excludes>
+				            <exclude>spring/**</exclude>
+				            <exclude>*.properties</exclude>
+				        </excludes>
+
+				    </configuration>
+				</plugin>
+
+				
+				<!-- 拷贝依赖的jar包到lib目录 -->
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-dependency-plugin</artifactId>
+	                <version>2.4</version>
+	                <executions>
+	                    <execution>
+	                        <id>copy</id>
+	                        <phase>package</phase>
+	                        <goals>
+	                            <goal>copy-dependencies</goal>
+	                        </goals>
+	                        <configuration>
+	                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+	                        </configuration>
+	                    </execution>
+	                </executions>
+	            </plugin>
+	            
+	          				
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
