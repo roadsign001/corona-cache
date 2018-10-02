@@ -22,11 +22,11 @@ public class CacheSecureStrategyClient implements CacheStrategyClient{
     private CacheService cacheService;
     
    
-    public  <T> T getData(String name, String moduleName, Cacheable<T> c){
+    public  <T> T getData(String name, String regionName, Cacheable<T> c){
         
         T result = null;
         
-        byte[] value = cacheService.getBytesCache(name, moduleName);
+        byte[] value = cacheService.getBytesCache(name, regionName);
         
         if(null != value){
             
@@ -43,7 +43,7 @@ public class CacheSecureStrategyClient implements CacheStrategyClient{
             result = c.getDataFromDB();
             
             if(null!=result) {
-                cacheService.setCache(name, CacheUtil.serialize(result),moduleName);
+                cacheService.setCache(name, CacheUtil.serialize(result),regionName);
             }
  
             cacheService.unlock(name);
@@ -57,7 +57,7 @@ public class CacheSecureStrategyClient implements CacheStrategyClient{
             } catch (InterruptedException e) {
                 return result;
             }
-            result = getData(name, moduleName, c);
+            result = getData(name, regionName, c);
         }
 
         return result;

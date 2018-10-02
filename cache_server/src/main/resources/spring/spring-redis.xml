@@ -15,8 +15,8 @@
 	
 	<!-- redis pool配置参数 -->
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
-		<property name="maxTotal" value="4096" />
-		<property name="maxIdle" value="200" />
+		<property name="maxTotal" value="1024" />
+		<property name="maxIdle" value="10" />
 		<property name="maxWaitMillis" value="3000" />
 		<property name="testOnBorrow" value="true" />
 		<property name="testOnReturn" value="false" />
@@ -45,9 +45,8 @@
 	<bean id="regionPoolMapping" class="java.util.HashMap" > 
 		<constructor-arg>  
             <map>  
-                <entry key="xplatform" value-ref="redis_local_pool_0" ></entry>   
-                <entry key="zfwx_api" value-ref="redis_local_pool_1" ></entry>  
-                <entry key="wxqt" value-ref="redis_local_pool_1" ></entry>  
+                <entry key="defaultcache" value-ref="redis_local_pool_0" ></entry>   
+                <entry key="webcache" value-ref="redis_local_pool_1" ></entry>  
             </map>  
 	    </constructor-arg>  
 	</bean>

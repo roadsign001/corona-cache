@@ -25,11 +25,11 @@ public class CacheStringStrategyClient implements CacheStrategyClient{
     private CacheService cacheService;
     
    
-    public  <T> T getData(String name, String moduleName, Cacheable<T> c){
+    public  <T> T getData(String name, String regionName, Cacheable<T> c){
         
         T result = null;
         
-        String value = cacheService.getCache(name, moduleName);
+        String value = cacheService.getCache(name, regionName);
         
         if(null != value){
             
@@ -44,7 +44,7 @@ public class CacheStringStrategyClient implements CacheStrategyClient{
         result = c.getDataFromDB();
             
         if(null!=result) {
-            cacheService.setCache(name, CacheUtil.toJSONString(result),moduleName);
+            cacheService.setCache(name, CacheUtil.toJSONString(result),regionName);
         }
 
         log.debug(name + ": from db");

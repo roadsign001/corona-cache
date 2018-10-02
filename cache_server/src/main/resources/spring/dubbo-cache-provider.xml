@@ -30,11 +30,11 @@
 	default-autowire="byName" default-lazy-init="true">
 	
 	
-	<context:component-scan base-package="com.dj.io.cache"/>
+	<context:component-scan base-package="io.corona.cache.*"/>
 	
 	<context:property-placeholder location="classpath*:application.properties" ignore-unresolvable="true"/>
     <context:property-placeholder location="classpath*:config.properties" ignore-unresolvable="true"/>
     
-	<dubbo:service interface="com.dj.io.cache.CacheService" ref="cacheService" retries="0" timeout="120000"/>
+	<dubbo:service interface="io.corona.cache.CacheService" ref="cacheService" retries="0" timeout="120000"/>
 	
 </beans>

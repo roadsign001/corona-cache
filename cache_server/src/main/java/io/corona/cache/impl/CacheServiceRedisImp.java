@@ -6,9 +6,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+
 import io.corona.cache.CacheRuntimeException;
 import io.corona.cache.CacheService;
-
+import io.corona.cache.util.PropertiesConfigUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -17,8 +18,8 @@ public class CacheServiceRedisImp implements CacheService{
     
     private final Log log = LogFactory.getLog(this.getClass());
     
-    private final String defaultRegionName ="xplatform";  
-    private final int defaultValidTime = 180; //缺省有效时间3分钟
+    private final String defaultRegionName = PropertiesConfigUtil.getProperty("defaultRegionName");  
+    private final int defaultValidTime = PropertiesConfigUtil.getPropertyInt("defaultValidTime"); 
     
     private Map<String,JedisPool> regionPoolMapping;
     
@@ -143,6 +144,7 @@ public class CacheServiceRedisImp implements CacheService{
     public String getCache(String name, String regionName) throws CacheRuntimeException{
         
         log.debug("regionPoolMapping: " + regionPoolMapping);
+        log.debug("regionName: " + regionName);
         
         String result = null;
         JedisPool pool = null;
@@ -153,7 +155,6 @@ public class CacheServiceRedisImp implements CacheService{
             pool = regionPoolMapping.get(regionName);
             if(null==pool)
                 pool = regionPoolMapping.get(defaultRegionName);
-            
             jedis = pool.getResource();
             result = jedis.get(name);
            
@@ -274,7 +275,7 @@ public class CacheServiceRedisImp implements CacheService{
             
         }catch(Exception e){
             
-            throw new CacheRuntimeException("unlock error!",e);
+            throw new CacheRuntimeException("del cache data error!",e);
         
         }finally{
             
