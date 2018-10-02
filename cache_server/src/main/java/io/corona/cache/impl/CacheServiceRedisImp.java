@@ -25,52 +25,50 @@ public class CacheServiceRedisImp implements CacheService{
     
  
 
-    public void setRegionPoolMapping(Map<String, JedisPool> modulePoolMapping) {
+    public void setRegionPoolMapping(Map<String, JedisPool> modulePoolMapping){
         this.regionPoolMapping = modulePoolMapping;
     }
 
-    public void setCache(String name, String value) throws CacheRuntimeException {
+    public void setCache(String name, String value){
         
         this.setCache(name, value, defaultValidTime);
         
     }
 
-    public void setCache(String name, byte[] value) throws CacheRuntimeException {
+    public void setCache(String name, byte[] value){
         
         this.setCache(name, value, defaultValidTime);
         
     }
 
     
-    public void setCache(String name, String value, int validTime) throws CacheRuntimeException {
+    public void setCache(String name, String value, int validTime){
                                                     
         this.setCache(name, value, validTime, defaultRegionName);
         
     }
 
-    public void setCache(String name, byte[] value, int validTime) throws CacheRuntimeException {
+    public void setCache(String name, byte[] value, int validTime){
         
         this.setCache(name, value, validTime, defaultRegionName);
         
     }
 
     
-    
-    public void setCache(String name, String value, String regionName) throws CacheRuntimeException {
+    public void setCache(String name, String value, String regionName){
                                                     
         this.setCache(name, value, defaultValidTime, regionName);
         
     }
 
-    public void setCache(String name, byte[] value, String regionName) throws CacheRuntimeException {
+    public void setCache(String name, byte[] value, String regionName){
         
         this.setCache(name, value, defaultValidTime, regionName);
         
     }
 
     
-    public void setCache(String name, String value, int validTime, String regionName)
-                                                                        throws CacheRuntimeException {
+    public void setCache(String name, String value, int validTime, String regionName){
        
         log.debug("set value: " + value);
         
@@ -88,7 +86,7 @@ public class CacheServiceRedisImp implements CacheService{
             
         }catch(Exception e){
             
-            throw new CacheRuntimeException("set data cache error!",e);
+            log.error("set data cache error!",e);
         
         }finally{
             
@@ -99,8 +97,7 @@ public class CacheServiceRedisImp implements CacheService{
             
     }
     
-    public void setCache(String name, byte[] value, int validTime, String regionName)
-                                                                throws CacheRuntimeException {
+    public void setCache(String name, byte[] value, int validTime, String regionName){
 
         
         log.debug("set value: " + value);
@@ -119,7 +116,7 @@ public class CacheServiceRedisImp implements CacheService{
             
         }catch(Exception e){
             
-            throw new CacheRuntimeException("set data cache error!",e);
+            log.error("set data cache error!",e);
         
         }finally{
             
@@ -132,16 +129,16 @@ public class CacheServiceRedisImp implements CacheService{
 
     }
 
-    public String getCache(String name) throws CacheRuntimeException{
+    public String getCache(String name){
         return this.getCache(name, defaultRegionName);
     }
 
-    public byte[] getBytesCache(String name) throws CacheRuntimeException{
+    public byte[] getBytesCache(String name){
         return this.getBytesCache(name, defaultRegionName);
     }
 
     
-    public String getCache(String name, String regionName) throws CacheRuntimeException{
+    public String getCache(String name, String regionName){
         
         log.debug("regionPoolMapping: " + regionPoolMapping);
         log.debug("regionName: " + regionName);
@@ -161,7 +158,7 @@ public class CacheServiceRedisImp implements CacheService{
         
         }catch(Exception e){
             
-            throw new CacheRuntimeException("read data cache error!",e);
+            log.error("read data cache error!",e);
         
         }finally{
             
@@ -176,7 +173,7 @@ public class CacheServiceRedisImp implements CacheService{
         
     }
 
-    public byte[] getBytesCache(String name, String regionName) throws CacheRuntimeException{
+    public byte[] getBytesCache(String name, String regionName){
         
         log.debug("regionPoolMapping: " + regionPoolMapping);
         
@@ -196,7 +193,7 @@ public class CacheServiceRedisImp implements CacheService{
         
         }catch(Exception e){
             
-            throw new CacheRuntimeException("read data cache error!",e);
+            log.error("read data cache error!",e);
         
         }finally{
             
@@ -242,7 +239,7 @@ public class CacheServiceRedisImp implements CacheService{
             
         }catch(Exception e){
             
-            throw new CacheRuntimeException("unlock error!",e);
+            log.error("unlock error!",e);
         
         }finally{
             
@@ -252,16 +249,14 @@ public class CacheServiceRedisImp implements CacheService{
         }
 
         return result;
-        
     }
 
-    public void del(String name) throws CacheRuntimeException{
+    public void del(String name){
         
         del(name, "defaultModuleName");
-        
     }
 
-    public void del(String name, String regionName)throws CacheRuntimeException{
+    public void del(String name, String regionName){
         
         JedisPool pool = null;
         Jedis jedis = null;
@@ -275,7 +270,7 @@ public class CacheServiceRedisImp implements CacheService{
             
         }catch(Exception e){
             
-            throw new CacheRuntimeException("del cache data error!",e);
+            log.error("del cache data error!",e);
         
         }finally{
             
@@ -283,10 +278,6 @@ public class CacheServiceRedisImp implements CacheService{
                 jedis.close();      
             
         }
-
-        
     }
-
-    
     
 }
