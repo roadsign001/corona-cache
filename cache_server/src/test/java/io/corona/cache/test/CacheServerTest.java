@@ -1,4 +1,4 @@
-package com.dj.zfwx.service;
+package io.corona.cache.test;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

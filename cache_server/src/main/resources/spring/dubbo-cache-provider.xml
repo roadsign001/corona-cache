@@ -15,26 +15,27 @@
  - limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
-		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
-	    http://cxf.apache.org/transports/http/configuration
-        http://cxf.apache.org/schemas/configuration/http-conf.xsd"
-	default-autowire="byName" default-lazy-init="true">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans	
+	              http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		          http://www.springframework.org/schema/context 
+		          http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		          http://code.alibabatech.com/schema/dubbo 
+		          http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+		          ">
 	
-	
-	<context:component-scan base-package="io.corona.cache.*"/>
 	
 	<context:property-placeholder location="classpath*:application.properties" ignore-unresolvable="true"/>
     <context:property-placeholder location="classpath*:config.properties" ignore-unresolvable="true"/>
     
 	<dubbo:service interface="io.corona.cache.CacheService" ref="cacheService" retries="0" timeout="120000"/>
+	
+	<bean id="cacheService" class="io.corona.cache.impl.CacheServiceRedisImp">
+		<property name="regionPoolMapping">
+	       	 <ref bean="regionPoolMapping"/>
+	    </property>
+	</bean>
 	
 </beans>

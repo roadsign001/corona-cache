@@ -4,16 +4,12 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Service;
-
-
-import io.corona.cache.CacheRuntimeException;
 import io.corona.cache.CacheService;
 import io.corona.cache.util.PropertiesConfigUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-@Service("cacheService")
+
 public class CacheServiceRedisImp implements CacheService{
     
     private final Log log = LogFactory.getLog(this.getClass());
@@ -21,12 +17,12 @@ public class CacheServiceRedisImp implements CacheService{
     private final String defaultRegionName = PropertiesConfigUtil.getProperty("defaultRegionName");  
     private final int defaultValidTime = PropertiesConfigUtil.getPropertyInt("defaultValidTime"); 
     
+   
     private Map<String,JedisPool> regionPoolMapping;
     
- 
 
-    public void setRegionPoolMapping(Map<String, JedisPool> modulePoolMapping){
-        this.regionPoolMapping = modulePoolMapping;
+    public void setRegionPoolMapping(Map<String, JedisPool> regionPoolMapping) {
+        this.regionPoolMapping = regionPoolMapping;
     }
 
     public void setCache(String name, String value){
@@ -209,6 +205,8 @@ public class CacheServiceRedisImp implements CacheService{
     }
 
     public boolean lock(String name) {
+ 
+        log.debug("unlock: " + name);
         
         String result = this.getCache("lock:" +name);
         if(null != result){
@@ -253,10 +251,13 @@ public class CacheServiceRedisImp implements CacheService{
 
     public void del(String name){
         
-        del(name, "defaultModuleName");
+        del(name, defaultRegionName);
     }
 
     public void del(String name, String regionName){
+        
+        log.debug("regionName: " + regionName);
+        log.debug("regionPoolMapping: " + regionPoolMapping);
         
         JedisPool pool = null;
         Jedis jedis = null;
